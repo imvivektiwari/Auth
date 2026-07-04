@@ -9,10 +9,8 @@ export default async function DashboardPage() {
   });
 
   if (!session) {
-    redirect("/auth");
+    redirect("/sign-in");
   }
-
-  console.log("Session:", session);
 
   return (
     <main className="min-h-screen bg-slate-950 px-6 py-16 text-white">
@@ -24,8 +22,8 @@ export default async function DashboardPage() {
           Your Better Auth session is active and Prisma is connected for persistence.
         </p>
         <div className="mt-8 flex gap-3">
-          <Link href="/" className="rounded-lg bg-cyan-500 px-4 py-3 font-medium text-slate-950">
-            Back home
+          <Link href="/sign-out" className="rounded-lg bg-slate-800 px-4 py-2 text-sm text-white hover:bg-slate-700">
+            Sign Out
           </Link>
         </div>
       </div>

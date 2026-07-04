@@ -3,11 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import Link from "next/link";
 
-
-export default function AuthPage() {
+export default function SignUpPage() {
   const router = useRouter();
-  const [mode, setMode] = useState<"login" | "register">("login");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,27 +19,15 @@ export default function AuthPage() {
     setError("");
 
     try {
-      if (mode === "register") {
-        const result = await authClient.signUp.email({
-          email,
-          password,
-          name,
-        });
+      const result = await authClient.signUp.email({
+        name,
+        email,
+        password,
+      });
 
-        if (result.error) {
-          setError(result.error.message || "Registration failed");
-          return;
-        }
-      } else {
-        const result = await authClient.signIn.email({
-          email,
-          password,
-        });
-
-        if (result.error) {
-          setError(result.error.message || "Login failed");
-          return;
-        }
+      if (result.error) {
+        setError(result.error.message || "Sign-up failed");
+        return;
       }
 
       router.push("/");
@@ -64,27 +51,24 @@ export default function AuthPage() {
       <div className="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-900/80 p-8 shadow-2xl">
         <div className="mb-8 text-center">
           <p className="text-sm uppercase tracking-[0.3em] text-cyan-400">Better Auth</p>
-          <h1 className="mt-2 text-3xl font-semibold">{mode === "login" ? "Welcome back" : "Create your account"}</h1>
+          <h1 className="mt-2 text-3xl font-semibold">Create an account</h1>
           <p className="mt-2 text-sm text-slate-400">
-            {mode === "login"
-              ? "Sign in with your email or Google account."
-              : "Register with email and password, or continue with Google."}
+            Sign up with your email or Google account.
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {mode === "register" && (
-            <div>
-              <label className="mb-1 block text-sm text-slate-300">Full name</label>
-              <input
-                value={name}
-                onChange={(event) => setName(event.target.value)}
-                className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 outline-none ring-0"
-                placeholder="Ada Lovelace"
-              />
-            </div>
-          )}
-
+          <div>
+            <label className="mb-1 block text-sm text-slate-300">Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+              className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 outline-none ring-0"
+              placeholder="John Doe"
+              required
+            />
+          </div>
           <div>
             <label className="mb-1 block text-sm text-slate-300">Email</label>
             <input
@@ -116,7 +100,7 @@ export default function AuthPage() {
             disabled={loading}
             className="w-full rounded-lg bg-cyan-500 px-4 py-3 font-medium text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {loading ? "Please wait..." : mode === "login" ? "Sign in" : "Create account"}
+            {loading ? "Please wait..." : "Sign up"}
           </button>
         </form>
 
@@ -135,14 +119,9 @@ export default function AuthPage() {
         </button>
 
         <p className="mt-6 text-center text-sm text-slate-400">
-          {mode === "login" ? "Need an account?" : "Already have an account?"}{" "}
-          <button
-            type="button"
-            onClick={() => setMode(mode === "login" ? "register" : "login")}
-            className="font-medium text-cyan-400 hover:text-cyan-300"
-          >
-            {mode === "login" ? "Create one" : "Sign in"}
-          </button>
+          <Link href="/sign-in">
+            Already have an account? Sign in
+          </Link>
         </p>
       </div>
     </main>
