@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
@@ -20,9 +20,11 @@ export default function SignUpPage() {
 
     try {
       const result = await authClient.signUp.email({
-        name,
-        email,
-        password,
+        name: name,
+        email: email,
+        password: password,
+        //image: "https://avatars.githubusercontent.com/u/1188186?s=400&u=0c1e7f3d8a5b9e2f4c1b8e5f8e5f8e5f8e5f8e5f&v=4", // Optional
+        //callbackURL: "/",
       });
 
       if (result.error) {
