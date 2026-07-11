@@ -62,7 +62,7 @@ const ProfilePage = () => {
           Welcome, {user?.name || user?.email}
         </h1>
         {/* Update password form would go here */}
-        <form className="mt-6" onSubmit={handleSubmit}>
+        <form className="mt-6 mb-6" onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
               htmlFor="currentPassword"

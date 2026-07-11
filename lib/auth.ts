@@ -1,4 +1,5 @@
 import { betterAuth } from "better-auth";
+import { twoFactor } from "better-auth/plugins";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { db } from "./db";
@@ -6,6 +7,7 @@ import { sendVerificationEmail } from "./send-verification-email";
 import { sendPasswordResetEmail } from "./send-password-reset-email";
 
 export const auth = betterAuth({
+  appName: "My App",
   baseURL: process.env.APP_BASE_URL,
   secret: process.env.BETTER_AUTH_SECRET,
   database: prismaAdapter(db, {
@@ -23,6 +25,7 @@ export const auth = betterAuth({
     onExistingUserSignUp: async ({ user }, request) => {
       // Handle existing user sign-up logic here
     },
+    resetPasswordTokenExpiresIn: 1000 * 60 * 5, // 5 minuts
     sendResetPassword: async ({ user, url, token }, request) => {
       const resetUrl = `${process.env.APP_BASE_URL}/reset-password?token=${token}`;
       try {
@@ -62,7 +65,10 @@ export const auth = betterAuth({
       prompt: "select_account",
     },
   },
-  plugins: [nextCookies()],
+  session: {
+    expiresIn: 60 * 60, // 1 hr
+  },
+  plugins: [nextCookies(), twoFactor()],
 });
 
 export type Session = typeof auth.$Infer.Session;

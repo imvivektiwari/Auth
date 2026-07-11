@@ -8,15 +8,22 @@ export const authSession = async () => {
       headers: await headers(),
     });
     if (!session) {
-      throw new Error("No active session found");
+      throw new Error("Session not found");
     }
     return session;
-  } catch (err) {
-    //throw new Error("Error getting auth session: " + (err instanceof Error ? err.message : String(err)));
-  }
+  } catch {}
 };
 
 export const authRequired = async () => {
+  try {
+    await auth.api.revokeOtherSessions({
+      headers: await headers(),
+    });
+  } catch (ex) {
+    //TODO: Check why this throws exception, but revoke other session works
+    //console.log(ex);
+  }
+
   const session = await authSession();
   if (!session) {
     redirect("/sign-in");
