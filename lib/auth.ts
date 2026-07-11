@@ -4,7 +4,6 @@ import { nextCookies } from "better-auth/next-js";
 import { db } from "./db";
 import { sendVerificationEmail } from "./send-verification-email";
 import { sendPasswordResetEmail } from "./send-password-reset-email";
-import { redirect } from "next/navigation";
 
 export const auth = betterAuth({
   baseURL: process.env.APP_BASE_URL,
@@ -14,7 +13,13 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+    //custom password hashing and verifying
+    // password: {
+    //   hash: hashPassword,
+    //   verify: verifyPassword,
+    // },
     requireEmailVerification: true,
+    revokeSessionsOnPasswordReset: true,
     onExistingUserSignUp: async ({ user }, request) => {
       // Handle existing user sign-up logic here
     },
@@ -30,7 +35,7 @@ export const auth = betterAuth({
       }
     },
     onPasswordReset: async ({ user }, request) => {
-      //console.log(`Password for user ${user.email} has been reset.`);
+      console.log(`Password for user ${user.email} has been reset.`);
     },
   },
   emailVerification: {

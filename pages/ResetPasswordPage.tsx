@@ -10,13 +10,8 @@ export default function ResetPasswordPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [token, setToken] = useState("");
-
-  useEffect(() => {
-    const token: string =
-      new URLSearchParams(window?.location?.search)?.get("token") || "";
-    setToken(token);
-  }, []);
+  const token: string =
+    new URLSearchParams(window?.location?.search)?.get("token") || "";
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();

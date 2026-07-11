@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
@@ -37,7 +37,6 @@ export default function SignInPage() {
       setLoading(false);
     }
   };
-
 
   const handleGoogle = async () => {
     await authClient.signIn.social({

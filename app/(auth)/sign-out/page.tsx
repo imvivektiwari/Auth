@@ -2,13 +2,27 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 
-export default async function Signout() {
-    const signOut = async () => {
-        await auth.api.signOut({
-            headers: await headers(),
-        });
-        redirect("/sign-in");
-    }
+type PageProps = {
+  params: Promise<{ [key: string]: string | string[] | undefined }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
 
-    await signOut();
+export default async function Signout({ params, searchParams }: PageProps) {
+  const { reason } = await searchParams;
+
+  const signOut = async () => {
+    await auth.api.signOut({
+      headers: await headers(),
+    });
+
+    console.log("reason", reason);
+
+    if (reason) {
+      redirect(`/sign-in?reason=${reason}`);
+    } else {
+      redirect("/sign-in");
+    }
+  };
+
+  await signOut();
 }

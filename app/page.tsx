@@ -1,16 +1,9 @@
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { authRequired } from "@/lib/auth-utils";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (!session) {
-   return redirect("/sign-in");
+  const session = await authRequired();
+  if (session) {
+    redirect("/dashboard");
   }
-
-  return redirect("/dashboard");
-
 }
