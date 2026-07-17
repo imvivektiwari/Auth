@@ -38,8 +38,10 @@ export default function SignInPage() {
           //@ts-ignore
           trustDevice: true,
         });
-        if (data) {
-          router.push("/two-factor");
+
+        if (error) {
+          setError(error.message || "Login failed");
+          return;
         }
 
         return;

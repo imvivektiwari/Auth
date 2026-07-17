@@ -5,10 +5,11 @@ export const authClient = createAuthClient({
   plugins: [
     twoFactorClient({
       // twoFactorPage: "/two-factor",
-      // onTwoFactorRedirect(context) {
-      //   console.log(context);
-      //   console.log("Two-factor verification required");
-      // },
+      onTwoFactorRedirect({ twoFactorMethods }) {
+        if (twoFactorMethods?.includes("otp")) {
+          window.location.href = "/two-factor";
+        }
+      },
     }),
   ],
 });
