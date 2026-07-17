@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const TwoFAForm = () => {
   const [session, setSession] = useState<any>(null);
@@ -15,24 +16,28 @@ const TwoFAForm = () => {
   useEffect(() => {
     const fetchSession = async () => {
       const sessionData = await authClient.getSession();
+      console.log(sessionData);
       setSession(sessionData);
+      setFormData((prev) => ({
+        ...prev,
+        twoFAEnabled: sessionData?.data?.user?.twoFactorEnabled || false,
+      }));
     };
     fetchSession();
   }, []);
-
-  console.log(session);
 
   const handleSubmit = async (event: any) => {
     setLoading(true);
     event.preventDefault();
     const password = event.target?.password.value;
-    const twoFAEnabled = event.target?.twoFAEnabled.value;
+    const twoFAEnabled = formData.twoFAEnabled;
 
     try {
       let res = null;
       if (twoFAEnabled) {
         res = await authClient.twoFactor.enable({
           password,
+          issuer: "My App",
         });
       } else {
         res = await authClient.twoFactor.disable({
@@ -67,6 +72,7 @@ const TwoFAForm = () => {
           className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-2 outline-none ring-0"
           placeholder="Enter your current password"
         />
+        <Link href="/forgot-password">Forgot Password?</Link>
       </div>
       <div className="mb-4">
         <label
@@ -78,7 +84,6 @@ const TwoFAForm = () => {
             checked={formData.twoFAEnabled}
             id="twoFAEnabled"
             onChange={(event: any) => {
-              console.log(event.target.checked);
               setFormData({
                 twoFAEnabled: event.target.checked,
               });

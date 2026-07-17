@@ -15,8 +15,6 @@ export default async function Signout({ params, searchParams }: PageProps) {
       headers: await headers(),
     });
 
-    console.log("reason", reason);
-
     if (reason) {
       redirect(`/sign-in?reason=${reason}`);
     } else {

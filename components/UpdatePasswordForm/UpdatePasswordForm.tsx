@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const UpdatePasswordForm = () => {
   const [loading, setLoading] = useState(false);
@@ -51,6 +52,7 @@ const UpdatePasswordForm = () => {
           className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-2 outline-none ring-0"
           placeholder="Enter your current password"
         />
+        <Link href="/forgot-password">Forgot Password?</Link>
       </div>
       <div className="mb-4">
         <label

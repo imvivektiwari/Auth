@@ -14,10 +14,10 @@ export default async function DashboardPage() {
 
       <div className="mt-8 flex gap-3">
         <Link
-          href="/profile"
+          href="/sign-out"
           className="rounded-lg bg-slate-800 px-4 py-2 text-sm text-white hover:bg-slate-700"
         >
-          Profile
+          Sign Out
         </Link>
       </div>
     </div>

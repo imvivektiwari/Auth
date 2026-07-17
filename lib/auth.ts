@@ -5,6 +5,7 @@ import { nextCookies } from "better-auth/next-js";
 import { db } from "./db";
 import { sendVerificationEmail } from "./send-verification-email";
 import { sendPasswordResetEmail } from "./send-password-reset-email";
+import { send2FAOTP } from "./send-2FA-OTP";
 
 export const auth = betterAuth({
   appName: "My App",
@@ -68,7 +69,22 @@ export const auth = betterAuth({
   session: {
     expiresIn: 60 * 60, // 1 hr
   },
-  plugins: [nextCookies(), twoFactor()],
+  plugins: [
+    nextCookies(),
+    twoFactor({
+      skipVerificationOnEnable: true,
+      otpOptions: {
+        async sendOTP({ user, otp }, ctx) {
+          send2FAOTP({
+            to: process.env.EMAIL_TO as string,
+            otp: otp,
+            userName: user.name,
+          });
+        },
+      },
+    }),
+  ],
 });
 
 export type Session = typeof auth.$Infer.Session;
+//allowPasswordless: true

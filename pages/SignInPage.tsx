@@ -21,11 +21,27 @@ export default function SignInPage() {
       const result = await authClient.signIn.email({
         email: email,
         password: password,
-        //callbackURL: "/",
       });
 
       if (result.error) {
         setError(result.error.message || "Login failed");
+        return;
+      }
+
+      const isTwoFactorChallenge = Boolean(
+        (result as { data?: { twoFactorRedirect?: boolean } })?.data
+          ?.twoFactorRedirect,
+      );
+
+      if (isTwoFactorChallenge) {
+        const { data, error } = await authClient.twoFactor.sendOtp({
+          //@ts-ignore
+          trustDevice: true,
+        });
+        if (data) {
+          router.push("/two-factor");
+        }
+
         return;
       }
 

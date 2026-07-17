@@ -9,7 +9,7 @@ export default function PageLayout({
   return (
     <main className="min-h-screen bg-slate-950 text-white">
       <PrimaryNavigation routes={ROUTES} />
-      <div className="mx-auto max-w-3xl">{children}</div>
+      <div className="mx-auto max-w-xl">{children}</div>
     </main>
   );
 }
