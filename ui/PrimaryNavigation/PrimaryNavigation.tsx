@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { RouteType } from "@/routes";
 import Link from "next/link";
-import { SiAuth0 } from "react-icons/si";
+import CompanyLogo from "../CompanyLogo/CompanyLogo";
 
 type PrimaryNavigationProps = {
   routes: RouteType[];
@@ -18,7 +18,7 @@ const PrimaryNavigation = ({ routes, children }: PrimaryNavigationProps) => {
       >
         <div className="h-full px-3 py-4 overflow-y-auto bg-neutral-primary-soft border-e border-default">
           <a href="./" className="flex items-center ps-2.5 mb-5">
-            {<SiAuth0 />}
+            <CompanyLogo />
             <span className="self-center text-lg text-heading font-semibold whitespace-nowrap">
               Auth App
             </span>

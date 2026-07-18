@@ -1,5 +1,5 @@
 import { ROUTES } from "@/routes";
-import PrimaryNavigation from "@/ui/tabs/PrimaryNavigation/PrimaryNavigation";
+import PrimaryNavigation from "@/ui/PrimaryNavigation/PrimaryNavigation";
 
 export default function PageLayout({
   children,

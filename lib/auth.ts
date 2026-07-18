@@ -68,7 +68,6 @@ export const auth = betterAuth({
     expiresIn: 60 * 30, // 30min
   },
   plugins: [
-    nextCookies(),
     twoFactor({
       // skipVerificationOnEnable: true,
       otpOptions: {
@@ -81,6 +80,7 @@ export const auth = betterAuth({
         },
       },
     }),
+    nextCookies(),
   ],
 });
 

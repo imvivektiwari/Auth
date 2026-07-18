@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import TextField from "@/ui/TextField/TextField";
+import Link from "next/link";
 
 export default function TwoFactorPage() {
   const router = useRouter();
@@ -16,7 +18,6 @@ export default function TwoFactorPage() {
     setError("");
 
     try {
-      console.log(code);
       const { data, error } = await authClient.twoFactor.verifyOtp({
         code: code, // required
         trustDevice: true,
@@ -37,45 +38,47 @@ export default function TwoFactorPage() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-6 py-12">
-      <div className="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-900/80 p-8 shadow-2xl">
-        <div className="mb-8 text-center">
-          <p className="text-sm uppercase tracking-[0.3em] text-cyan-400">
-            Two-Factor Verification
-          </p>
-          <p className="mt-2 text-sm text-slate-400">
-            Enter the code from your authenticator app to finish signing in.
-          </p>
-        </div>
+    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <img
+          alt="Your Company"
+          src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
+          className="mx-auto h-10 w-auto"
+        />
+        <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white">
+          Two-Factor Verification
+        </h2>
+      </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="mb-1 block text-sm text-slate-300">
-              Verification code
-            </label>
-            <input
-              type="text"
-              inputMode="numeric"
-              autoComplete="one-time-code"
-              value={code}
-              onChange={(event) => setCode(event.target.value)}
-              className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-2 outline-none ring-0"
-              placeholder="123456"
-              required
-            />
-          </div>
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <TextField
+            label="Verification code"
+            value={code}
+            onChange={(event) => setCode(event.target.value)}
+          />
 
           {error ? <p className="text-sm text-rose-400">{error}</p> : null}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full rounded-lg bg-cyan-500 px-2 py-2 font-medium text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {loading ? "Please wait..." : "Verify"}
-          </button>
+          <div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+            >
+              {loading ? "Please wait..." : "Verify"}
+            </button>
+          </div>
         </form>
+        <p className="mt-10 text-center text-sm/6 text-gray-400">
+          <Link
+            href="/sign-in"
+            className="font-semibold text-indigo-400 hover:text-indigo-300"
+          >
+            Back to Sign In
+          </Link>
+        </p>
       </div>
-    </main>
+    </div>
   );
 }

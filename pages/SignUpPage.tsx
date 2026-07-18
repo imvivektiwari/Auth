@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
+import { SiAuth0 } from "react-icons/si";
+import TextField from "@/ui/TextField/TextField";
+import { FcGoogle } from "react-icons/fc";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -49,83 +52,69 @@ export default function SignUpPage() {
   };
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-6 py-12">
-      <div className="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-900/80 p-8 shadow-2xl">
-        <div className="mb-8 text-center">
-          <p className="text-sm uppercase tracking-[0.3em] text-cyan-400">Better Auth</p>
-          <h1 className="mt-2 text-3xl font-semibold">Create an account</h1>
-          <p className="mt-2 text-sm text-slate-400">
-            Sign up with your email or Google account.
-          </p>
-        </div>
+    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <SiAuth0 />
+        <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white">
+          Sign in to your account
+        </h2>
+      </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="mb-1 block text-sm text-slate-300">Name</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 outline-none ring-0"
-              placeholder="John Doe"
-              required
-            />
-          </div>
-          <div>
-            <label className="mb-1 block text-sm text-slate-300">Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 outline-none ring-0"
-              placeholder="you@example.com"
-              required
-            />
-          </div>
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <TextField
+            label="Name"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+          />
 
-          <div>
-            <label className="mb-1 block text-sm text-slate-300">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-3 outline-none ring-0"
-              placeholder="••••••••"
-              required
-            />
-          </div>
+          <TextField
+            label="Email Address"
+            type="email"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+          />
+
+          <TextField
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+          />
 
           {error ? <p className="text-sm text-rose-400">{error}</p> : null}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full rounded-lg bg-cyan-500 px-4 py-3 font-medium text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {loading ? "Please wait..." : "Sign up"}
-          </button>
+          <div>
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+            >
+              {loading ? "Please wait..." : "Sign Up"}
+            </button>
+          </div>
         </form>
 
-        <div className="my-6 flex items-center gap-3 text-sm text-slate-500">
-          <div className="h-px flex-1 bg-slate-800" />
-          <span>or</span>
-          <div className="h-px flex-1 bg-slate-800" />
+        <div className="flex items-center justify-center mt-8">
+          <button
+            type="button"
+            onClick={handleGoogle}
+            className="flex items-center bg-white dark:bg-gray-900 border border-gray-300 rounded-lg shadow-md px-6 py-2 text-sm font-medium text-gray-800 dark:text-white hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+          >
+            <FcGoogle fontSize={"1.2rem"} />
+            <span>Continue with Google</span>
+          </button>
         </div>
-
-        <button
-          type="button"
-          onClick={handleGoogle}
-          className="w-full rounded-lg border border-slate-700 bg-white px-4 py-3 font-medium text-slate-900 transition hover:bg-slate-100"
-        >
-          Continue with Google
-        </button>
-
-        <p className="mt-6 text-center text-sm text-slate-400">
-          <Link href="/sign-in">
-            Already have an account? Sign in
+        <p className="mt-10 text-center text-sm/6 text-gray-400">
+          Already have an account?
+          <Link
+            href="/sign-in"
+            className="font-semibold text-indigo-400 hover:text-indigo-300"
+          >
+            Sign in
           </Link>
         </p>
       </div>
-    </main>
+    </div>
   );
 }

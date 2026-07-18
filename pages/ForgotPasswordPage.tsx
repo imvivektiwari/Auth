@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
+import TextField from "@/ui/TextField/TextField";
+import CompanyLogo from "@/ui/CompanyLogo/CompanyLogo";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
@@ -35,78 +37,57 @@ export default function ForgotPasswordPage() {
     }
   };
 
-  if (success) {
-    return <SuccessMessage />;
-  }
-
   return (
-    <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-6 py-12">
-      <div className="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-900/80 p-8 shadow-2xl">
-        <div className="mb-8 text-center">
-          <p className="text-sm uppercase tracking-[0.3em] text-cyan-400">
-            Better Auth
-          </p>
-          <p className="mt-2 text-sm text-slate-400">
-            Forgot your password? Enter your email and we'll send you a link to
-            reset it.
-          </p>
-        </div>
+    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+        <CompanyLogo />
+        <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white">
+          Forgot password ?
+        </h2>
+      </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="mb-1 block text-sm text-slate-300">Email</label>
-            <input
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        {!success && (
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <TextField
+              label="Email Address"
               type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-2 outline-none ring-0"
-              placeholder="you@example.com"
-              required
             />
-          </div>
 
-          {error ? <p className="text-sm text-rose-400">{error}</p> : null}
+            {error ? <p className="text-sm text-rose-400">{error}</p> : null}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full rounded-lg bg-cyan-500 px-2 py-2 font-medium text-slate-950 transition hover:bg-cyan-400 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {loading ? "Please wait..." : "Send Reset Link"}
-          </button>
+            <div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="flex w-full justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+              >
+                {loading ? "Please wait..." : "Send Reset Link"}
+              </button>
+            </div>
+          </form>
+        )}
+        {success && <SuccessMessage />}
 
+        <p className="mt-10 text-center text-sm/6 text-gray-400">
           <Link
             href="/sign-in"
-            className="text-sm text-cyan-400 hover:underline text-center block"
+            className="font-semibold text-indigo-400 hover:text-indigo-300"
           >
             Back to Sign In
           </Link>
-        </form>
+        </p>
       </div>
-    </main>
+    </div>
   );
 }
 
 const SuccessMessage = () => {
   return (
-    <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center px-6 py-12">
-      <div className="w-full max-w-md rounded-2xl border border-slate-800 bg-slate-900/80 p-8 shadow-2xl">
-        <div className="mb-8 text-center">
-          <p className="text-sm uppercase tracking-[0.3em] text-cyan-400">
-            Better Auth
-          </p>
-          <p className="mt-2 text-sm text-slate-400">
-            A password reset link has been sent. Please check your email.
-          </p>
-        </div>
-
-        <Link
-          href="/sign-in"
-          className="text-sm text-cyan-400 hover:underline text-center block"
-        >
-          Back to Sign In
-        </Link>
-      </div>
-    </main>
+    <p className="text-center text-sm/6 text-gray-400">
+      A password reset link has been sent. Please check your email.
+    </p>
   );
 };
