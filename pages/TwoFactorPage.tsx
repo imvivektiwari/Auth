@@ -6,6 +6,8 @@ import { authClient } from "@/lib/auth-client";
 import TextField from "@/ui/TextField/TextField";
 import Link from "next/link";
 import CompanyLogo from "@/ui/CompanyLogo/CompanyLogo";
+import OTPInput from "@/ui/OTPInput/OTPInput";
+import { set } from "better-auth";
 
 export default function TwoFactorPage() {
   const router = useRouter();
@@ -13,14 +15,13 @@ export default function TwoFactorPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleSubmit = async (event: any, value: string | null) => {
+    event?.preventDefault();
     setLoading(true);
     setError("");
-
     try {
       const { data, error } = await authClient.twoFactor.verifyOtp({
-        code: code, // required
+        code: value ?? code, // required
         trustDevice: true,
       });
 
@@ -38,6 +39,13 @@ export default function TwoFactorPage() {
     }
   };
 
+  const onComplete = (value: string) => {
+    setCode(value);
+    setTimeout(() => {
+      handleSubmit(null, value);
+    }, 100);
+  };
+
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -48,12 +56,11 @@ export default function TwoFactorPage() {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <TextField
-            label="Verification code"
-            value={code}
-            onChange={(event) => setCode(event.target.value)}
-          />
+        <form
+          onSubmit={(event) => handleSubmit(event, null)}
+          className="space-y-6"
+        >
+          <OTPInput onComplete={onComplete} />
 
           {error ? <p className="text-sm text-rose-400">{error}</p> : null}
 
