@@ -4,9 +4,9 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
-import { SiAuth0 } from "react-icons/si";
 import TextField from "@/ui/TextField/TextField";
 import { FcGoogle } from "react-icons/fc";
+import CompanyLogo from "@/ui/CompanyLogo/CompanyLogo";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -54,9 +54,9 @@ export default function SignUpPage() {
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <SiAuth0 />
+        <CompanyLogo />
         <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white">
-          Sign in to your account
+          Create your account
         </h2>
       </div>
 
