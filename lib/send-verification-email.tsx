@@ -8,15 +8,18 @@ type SendVerificationEmailParams = {
   userName: string;
 };
 
-export const sendVerificationEmail = async ({ to, verificationUrl, userName }: SendVerificationEmailParams) => {
-  console.log("Sending verification email to:", to);
+export const sendVerificationEmail = async ({
+  to,
+  verificationUrl,
+  userName,
+}: SendVerificationEmailParams) => {
   try {
     const { data, error } = await resend.emails.send({
       from: process.env.EMAIL_FROM as string,
       to: [to],
-      subject: 'Hello world',
+      subject: "Hello world",
       //react: <VerificationEmail verificationUrl={verificationUrl} userName={userName} />
-       html: emailHTML(userName, verificationUrl, "Better Auth")
+      html: emailHTML(userName, verificationUrl),
     });
 
     if (error) {
@@ -29,9 +32,10 @@ export const sendVerificationEmail = async ({ to, verificationUrl, userName }: S
     console.log("Error sending verification email:", error);
     return Response.json({ error }, { status: 500 });
   }
-}
+};
 
-const emailHTML = (userName: string, verificationUrl: string, appName: string) => {
+const emailHTML = (userName: string, verificationUrl: string) => {
+  const appName = process.env.APP_NAME;
   return `<html>
         <body style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f4f4f4', padding: '20px' }}>
             <div style={{ maxWidth: '600px', margin: '0 auto', backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px' }}>
@@ -43,4 +47,4 @@ const emailHTML = (userName: string, verificationUrl: string, appName: string) =
             </div>
         </body>
     </html>`;
-}
+};

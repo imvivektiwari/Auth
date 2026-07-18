@@ -3,6 +3,7 @@ import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import TextField from "@/ui/TextField/TextField";
 
 const UpdatePasswordForm = () => {
   const [loading, setLoading] = useState(false);
@@ -10,15 +11,16 @@ const UpdatePasswordForm = () => {
   const [error, setError] = useState("");
 
   const handleSubmit = async (event: any) => {
-    setLoading(true);
     event.preventDefault();
     const currentPassword = event.target?.currentPassword.value;
     const newPassword = event.target?.newPassword.value;
-    const confirmPassword = event.target?.confirmPassword.value;
+    const confirmPassword = event.target?.confirmNewPassword.value;
     if (newPassword !== confirmPassword) {
-      alert("New password and confirm password do not match.");
+      setError("password do not match");
       return;
     }
+    setLoading(true);
+    setError("");
     try {
       const { data, error } = await authClient.changePassword({
         newPassword: newPassword,
@@ -39,55 +41,28 @@ const UpdatePasswordForm = () => {
 
   return (
     <form className="mt-6 mb-6" onSubmit={handleSubmit}>
-      <div className="mb-4">
-        <label
-          htmlFor="currentPassword"
-          className="block text-sm font-medium text-slate-300"
-        >
-          Current Password
-        </label>
-        <input
-          type="password"
-          id="currentPassword"
-          className="w-full rounded-lg border px-4 py-2 outline-none ring-0"
-          placeholder="Enter your current password"
-        />
-      </div>
-      <div className="mb-5">
-        <Link href="/forgot-password">Forgot Password?</Link>
-      </div>
-      <div className="mb-4">
-        <label
-          htmlFor="newPassword"
-          className="block text-sm font-medium text-slate-300"
-        >
-          New Password
-        </label>
-        <input
-          type="password"
-          id="newPassword"
-          className="w-full rounded-lg border px-4 py-2 outline-none ring-0"
-          placeholder="Enter your new password"
-        />
-      </div>
-      <div className="mb-4">
-        <label
-          htmlFor="confirmPassword"
-          className="block text-sm font-medium text-slate-300"
-        >
-          Confirm New Password
-        </label>
-        <input
-          type="password"
-          id="confirmPassword"
-          className="w-full rounded-lg border px-4 py-2 outline-none ring-0"
-          placeholder="Confirm your new password"
-        />
-      </div>
+      <TextField
+        name="currentPassword"
+        label="Current Password"
+        type="password"
+        rightLabel={<Link href="/forgot-password">Forgot Password?</Link>}
+      />
+
+      <TextField name="newPassword" label="New Password" type="password" />
+
+      <TextField
+        name="confirmNewPassword"
+        label="Confirm New Password"
+        type="password"
+        placeholder="Confirm new password"
+      />
+
       {error ? <p className="text-sm text-rose-400">{error}</p> : null}
+
       <button
+        disabled={loading}
         type="submit"
-        className="rounded-lg bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
+        className="flex justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
       >
         {loading ? "Loading..." : " Update Password"}
       </button>

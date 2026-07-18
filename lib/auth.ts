@@ -8,7 +8,7 @@ import { sendPasswordResetEmail } from "./send-password-reset-email";
 import { send2FAOTP } from "./send-2FA-OTP";
 
 export const auth = betterAuth({
-  appName: "My App",
+  appName: process.env.APP_NAME,
   baseURL: process.env.APP_BASE_URL,
   secret: process.env.BETTER_AUTH_SECRET,
   database: prismaAdapter(db, {

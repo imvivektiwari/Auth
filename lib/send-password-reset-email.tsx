@@ -15,7 +15,7 @@ export async function sendPasswordResetEmail({
       from: process.env.EMAIL_FROM as string,
       to: [to],
       subject: "Password Reset Request",
-      html: emailHTML(resetUrl, "Better Auth")
+      html: emailHTML(resetUrl),
     });
   } catch (error) {
     console.error("Error sending password reset email:", error);
@@ -23,8 +23,8 @@ export async function sendPasswordResetEmail({
   }
 }
 
-
-const emailHTML = (resetUrl: string, appName: string) => {
+const emailHTML = (resetUrl: string) => {
+  const appName = process.env.APP_NAME;
   return `<html>
         <body style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f4f4f4', padding: '20px' }}>
             <div style={{ maxWidth: '600px', margin: '0 auto', backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px' }}>
@@ -36,4 +36,4 @@ const emailHTML = (resetUrl: string, appName: string) => {
             </div>
         </body>
     </html>`;
-}
+};

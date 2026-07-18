@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import TextField from "@/ui/TextField/TextField";
 import Link from "next/link";
+import CompanyLogo from "@/ui/CompanyLogo/CompanyLogo";
 
 export default function TwoFactorPage() {
   const router = useRouter();
@@ -40,11 +41,7 @@ export default function TwoFactorPage() {
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          alt="Your Company"
-          src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-          className="mx-auto h-10 w-auto"
-        />
+        <CompanyLogo />
         <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white">
           Two-Factor Verification
         </h2>

@@ -15,11 +15,15 @@ export default function ResetPasswordPage() {
   const token: string =
     new URLSearchParams(window?.location?.search)?.get("token") || "";
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
+    const confirmPassword = event.target?.confirmPassword?.value;
+    if (confirmPassword !== password) {
+      setError("password do not match");
+      return;
+    }
     setLoading(true);
     setError("");
-
     try {
       const { data, error } = await authClient.resetPassword({
         newPassword: password,
@@ -53,9 +57,17 @@ export default function ResetPasswordPage() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <TextField
             label="New Password"
+            placeholder="Enter New Password"
             type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
+          />
+
+          <TextField
+            name="confirmPassword"
+            label="New Password"
+            type="password"
+            placeholder="Confirm New Password"
           />
 
           {error ? <p className="text-sm text-rose-400">{error}</p> : null}

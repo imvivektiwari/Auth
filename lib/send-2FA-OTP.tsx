@@ -1,6 +1,4 @@
 import { Resend } from "resend";
-import { auth } from "./auth";
-import { headers } from "next/headers";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -11,14 +9,13 @@ type Send2FATOTP = {
 };
 
 export const send2FAOTP = async ({ to, otp, userName }: Send2FATOTP) => {
-  console.log("Sending verification email to:", to);
   try {
     const { data, error } = await resend.emails.send({
       from: process.env.EMAIL_FROM as string,
       to: [to],
       subject: "Hello world",
       //react: <VerificationEmail verificationUrl={verificationUrl} userName={userName} />
-      html: emailHTML(userName, otp, "Better Auth"),
+      html: emailHTML(userName, otp),
     });
 
     if (error) {
@@ -33,7 +30,8 @@ export const send2FAOTP = async ({ to, otp, userName }: Send2FATOTP) => {
   }
 };
 
-const emailHTML = (userName: string, totp: string, appName: string) => {
+const emailHTML = (userName: string, totp: string) => {
+  const appName = process.env.APP_NAME;
   return `<html>
         <body style={{ fontFamily: 'Arial, sans-serif', backgroundColor: '#f4f4f4', padding: '20px' }}>
             <div style={{ maxWidth: '600px', margin: '0 auto', backgroundColor: '#ffffff', padding: '20px', borderRadius: '8px' }}>

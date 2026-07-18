@@ -34,7 +34,6 @@ const TwoFAForm = () => {
     event.preventDefault();
     const password = formData.password;
     const twoFAEnabled = formData.twoFAEnabled;
-    debugger;
     try {
       let res = null;
       if (twoFAEnabled) {
@@ -81,15 +80,13 @@ const TwoFAForm = () => {
   return (
     <form className="mt-6 mb-6" onSubmit={handleSubmit}>
       <div className="mb-4">
-        <label
-          htmlFor="newPassword"
-          className="block text-sm font-medium text-black"
-        >
+        <label htmlFor="twoFAEnabled" className="block text-sm font-medium">
           <input
             type="checkbox"
             checked={formData.twoFAEnabled}
             id="twoFAEnabled"
             onChange={(event) => handleChange("twoFAEnabled", event)}
+            className="mr-3"
           />
           Two Factor Authentication
         </label>
@@ -100,6 +97,7 @@ const TwoFAForm = () => {
         type="password"
         value={formData.password}
         label="Password"
+        placeholder="Enter your password"
         rightLabel={
           <div className="mb-5">
             <Link href="/forgot-password">Forgot Password?</Link>
@@ -110,8 +108,9 @@ const TwoFAForm = () => {
 
       {formError ? <p className="text-sm text-rose-400">{formError}</p> : null}
       <button
+        disabled={loading}
         type="submit"
-        className="rounded-lg bg-cyan-600 px-4 py-2 text-sm text-white hover:bg-cyan-700"
+        className="flex justify-center rounded-md bg-indigo-500 px-3 py-1.5 text-sm/6 font-semibold text-white hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
       >
         {loading ? "Loading..." : " Save MFA"}
       </button>
