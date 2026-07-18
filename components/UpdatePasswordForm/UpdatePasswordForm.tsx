@@ -49,9 +49,11 @@ const UpdatePasswordForm = () => {
         <input
           type="password"
           id="currentPassword"
-          className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-2 outline-none ring-0"
+          className="w-full rounded-lg border px-4 py-2 outline-none ring-0"
           placeholder="Enter your current password"
         />
+      </div>
+      <div className="mb-5">
         <Link href="/forgot-password">Forgot Password?</Link>
       </div>
       <div className="mb-4">
@@ -64,7 +66,7 @@ const UpdatePasswordForm = () => {
         <input
           type="password"
           id="newPassword"
-          className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-2 outline-none ring-0"
+          className="w-full rounded-lg border px-4 py-2 outline-none ring-0"
           placeholder="Enter your new password"
         />
       </div>
@@ -78,14 +80,14 @@ const UpdatePasswordForm = () => {
         <input
           type="password"
           id="confirmPassword"
-          className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-2 outline-none ring-0"
+          className="w-full rounded-lg border px-4 py-2 outline-none ring-0"
           placeholder="Confirm your new password"
         />
       </div>
       {error ? <p className="text-sm text-rose-400">{error}</p> : null}
       <button
         type="submit"
-        className="rounded-lg bg-cyan-600 px-4 py-2 text-sm text-white hover:bg-cyan-700"
+        className="rounded-lg bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
       >
         {loading ? "Loading..." : " Update Password"}
       </button>

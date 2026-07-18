@@ -46,7 +46,6 @@ export const auth = betterAuth({
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, url, token }, request) => {
-      // Implement your email sending logic here
       try {
         await sendVerificationEmail({
           to: process.env.EMAIL_TO as string,
@@ -60,14 +59,13 @@ export const auth = betterAuth({
   },
   socialProviders: {
     google: {
-      // requireEmailVerification: true,
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
       prompt: "select_account",
     },
   },
   session: {
-    expiresIn: 60 * 60, // 1 hr
+    expiresIn: 60 * 30, // 30min
   },
   plugins: [
     nextCookies(),

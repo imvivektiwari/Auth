@@ -61,23 +61,8 @@ const TwoFAForm = () => {
     <form className="mt-6 mb-6" onSubmit={handleSubmit}>
       <div className="mb-4">
         <label
-          htmlFor="password"
-          className="block text-sm font-medium text-slate-300"
-        >
-          Password
-        </label>
-        <input
-          type="password"
-          id="password"
-          className="w-full rounded-lg border border-slate-700 bg-slate-950 px-4 py-2 outline-none ring-0"
-          placeholder="Enter your current password"
-        />
-        <Link href="/forgot-password">Forgot Password?</Link>
-      </div>
-      <div className="mb-4">
-        <label
           htmlFor="newPassword"
-          className="block text-sm font-medium text-slate-300"
+          className="block text-sm font-medium text-black"
         >
           <input
             type="checkbox"
@@ -91,6 +76,23 @@ const TwoFAForm = () => {
           />
           Two Factor Authentication
         </label>
+      </div>
+      <div className="mb-4">
+        <label
+          htmlFor="password"
+          className="block text-sm font-medium text-black"
+        >
+          Password
+        </label>
+        <input
+          type="password"
+          id="password"
+          className="w-full rounded-lg border px-4 py-2 outline-none ring-0"
+          placeholder="Password Required for Updating 2FA"
+        />
+      </div>
+      <div className="mb-5">
+        <Link href="/forgot-password">Forgot Password?</Link>
       </div>
       {formError ? <p className="text-sm text-rose-400">{formError}</p> : null}
       <button

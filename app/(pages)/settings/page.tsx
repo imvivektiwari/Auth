@@ -3,7 +3,7 @@ import UpdatePasswordForm from "@/components/UpdatePasswordForm";
 import Tabs from "@/ui/tabs/Tabs";
 import TwoFAForm from "@/components/MFAForm";
 
-const Profile = async () => {
+const Settings = async () => {
   await authRequired();
 
   return (
@@ -26,4 +26,4 @@ const Profile = async () => {
   );
 };
 
-export default Profile;
+export default Settings;
