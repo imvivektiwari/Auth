@@ -3,11 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
-import TextField from "@/ui/TextField/TextField";
 import Link from "next/link";
 import CompanyLogo from "@/ui/CompanyLogo/CompanyLogo";
 import OTPInput from "@/ui/OTPInput/OTPInput";
-import { set } from "better-auth";
 
 export default function TwoFactorPage() {
   const router = useRouter();
