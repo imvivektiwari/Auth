@@ -18,7 +18,6 @@ export const sendVerificationEmail = async ({
       from: process.env.EMAIL_FROM as string,
       to: [to],
       subject: "Hello world",
-      //react: <VerificationEmail verificationUrl={verificationUrl} userName={userName} />
       html: emailHTML(userName, verificationUrl),
     });
 

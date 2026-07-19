@@ -29,9 +29,11 @@ export const auth = betterAuth({
     resetPasswordTokenExpiresIn: 1000 * 60 * 5, // 5 minuts
     sendResetPassword: async ({ user, url, token }, request) => {
       const resetUrl = `${process.env.APP_BASE_URL}/reset-password?token=${token}`;
+      const isProd = process.env.NODE_ENV === "production";
+      const emailTo = isProd ? user.email : process.env.EMAIL_TO;
       try {
         await sendPasswordResetEmail({
-          to: process.env.EMAIL_TO as string,
+          to: emailTo as string,
           resetUrl: resetUrl,
         });
       } catch (err) {
@@ -46,9 +48,11 @@ export const auth = betterAuth({
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
     sendVerificationEmail: async ({ user, url, token }, request) => {
+      const isProd = process.env.NODE_ENV === "production";
+      const emailTo = isProd ? user.email : process.env.EMAIL_TO;
       try {
         await sendVerificationEmail({
-          to: process.env.EMAIL_TO as string,
+          to: emailTo as string,
           verificationUrl: url,
           userName: user.name,
         });
@@ -72,6 +76,8 @@ export const auth = betterAuth({
       skipVerificationOnEnable: true,
       otpOptions: {
         async sendOTP({ user, otp }, ctx) {
+          const isProd = process.env.NODE_ENV === "production";
+          const emailTo = isProd ? user.email : process.env.EMAIL_TO;
           send2FAOTP({
             to: process.env.EMAIL_TO as string,
             otp: otp,
