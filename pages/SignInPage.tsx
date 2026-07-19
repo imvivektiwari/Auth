@@ -10,15 +10,16 @@ import CompanyLogo from "@/ui/CompanyLogo/CompanyLogo";
 
 export default function SignInPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.SubmitEvent) => {
     event.preventDefault();
     setLoading(true);
     setError("");
+
+    const email = event.target?.email.value;
+    const password = event.target?.password.value;
 
     try {
       const result = await authClient.signIn.email({
@@ -77,18 +78,12 @@ export default function SignInPage() {
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form onSubmit={handleSubmit} className="space-y-6">
-          <TextField
-            label="Email Address"
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
+          <TextField label="Email Address" type="email" name="email" />
 
           <TextField
             label="Password"
             type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
+            name="password"
             rightLabel={
               <Link
                 href="/forgot-password"

@@ -64,12 +64,14 @@ export default function SignUpPage() {
         <form onSubmit={handleSubmit} className="space-y-6">
           <TextField
             label="Name"
+            name="name"
             value={name}
             onChange={(event) => setName(event.target.value)}
           />
 
           <TextField
             label="Email Address"
+            name="email"
             type="email"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
@@ -77,6 +79,7 @@ export default function SignUpPage() {
 
           <TextField
             label="Password"
+            name="password"
             type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
