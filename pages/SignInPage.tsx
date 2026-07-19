@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
@@ -12,11 +13,17 @@ export default function SignInPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const captchaRef = useRef(null);
 
   const handleSubmit = async (event: React.SubmitEvent) => {
     event.preventDefault();
     setLoading(true);
     setError("");
+
+    if (!captchaRef.current) {
+      setError("Missing Recaptcha");
+      return;
+    }
 
     const email = event.target?.email.value;
     const password = event.target?.password.value;
@@ -25,6 +32,11 @@ export default function SignInPage() {
       const result = await authClient.signIn.email({
         email: email,
         password: password,
+        fetchOptions: {
+          headers: {
+            "x-captcha-response": captchaRef.current,
+          },
+        },
       });
 
       if (result.error) {
@@ -67,6 +79,10 @@ export default function SignInPage() {
     });
   };
 
+  const onCaptchaChange = (token: any) => {
+    captchaRef.current = token;
+  };
+
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -106,6 +122,15 @@ export default function SignInPage() {
             </button>
           </div>
         </form>
+
+        <div className="flex pt-5 justify-center">
+          <ReCAPTCHA
+            sitekey={
+              process.env.NEXT_PUBLIC_GOOGLE_RECAPTCHA_SITE_KEY as string
+            }
+            onChange={onCaptchaChange}
+          />
+        </div>
 
         <div className="flex items-center justify-center mt-8">
           <button

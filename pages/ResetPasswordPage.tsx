@@ -8,6 +8,7 @@ import { authClient } from "@/lib/auth-client";
 import CompanyLogo from "@/ui/CompanyLogo/CompanyLogo";
 
 export default function ResetPasswordPage() {
+  if (typeof window == "undefined") return;
   const router = useRouter();
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);

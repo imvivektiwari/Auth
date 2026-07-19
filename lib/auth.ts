@@ -1,5 +1,5 @@
 import { betterAuth } from "better-auth";
-import { twoFactor } from "better-auth/plugins";
+import { twoFactor, captcha } from "better-auth/plugins";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { nextCookies } from "better-auth/next-js";
 import { db } from "./db";
@@ -85,6 +85,10 @@ export const auth = betterAuth({
           });
         },
       },
+    }),
+    captcha({
+      provider: "google-recaptcha",
+      secretKey: process.env.GOOGLE_RECAPTCHA_SECRET_KEY as string,
     }),
     nextCookies(),
   ],

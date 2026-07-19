@@ -7,6 +7,7 @@ export const authClient = createAuthClient({
       // twoFactorPage: "/two-factor",
       onTwoFactorRedirect({ twoFactorMethods }) {
         if (twoFactorMethods?.includes("otp")) {
+          if (typeof window == "undefined") return;
           window.location.href = "/two-factor";
         }
       },
