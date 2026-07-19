@@ -21,7 +21,7 @@ export default function SignInPage() {
     setError("");
 
     if (!captchaRef.current) {
-      setError("Missing Recaptcha");
+      setError("Missing captcha");
       return;
     }
 
