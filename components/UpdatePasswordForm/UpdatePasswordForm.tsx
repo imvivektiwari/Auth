@@ -4,6 +4,7 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import TextField from "@/ui/TextField/TextField";
+import PasswordValidation from "@/ui/PasswordValidation/PasswordValidation";
 
 const UpdatePasswordForm = () => {
   const [loading, setLoading] = useState(false);
@@ -48,7 +49,7 @@ const UpdatePasswordForm = () => {
         rightLabel={<Link href="/forgot-password">Forgot Password?</Link>}
       />
 
-      <TextField name="newPassword" label="New Password" type="password" />
+      <PasswordValidation label="New Password" name="newPassword" />
 
       <TextField
         name="confirmNewPassword"

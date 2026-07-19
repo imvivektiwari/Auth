@@ -7,6 +7,7 @@ import Link from "next/link";
 import TextField from "@/ui/TextField/TextField";
 import { FcGoogle } from "react-icons/fc";
 import CompanyLogo from "@/ui/CompanyLogo/CompanyLogo";
+import PasswordValidation from "@/ui/PasswordValidation/PasswordValidation";
 
 export default function SignUpPage() {
   const router = useRouter();
@@ -55,7 +56,7 @@ export default function SignUpPage() {
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <CompanyLogo />
-        <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white">
+        <h2 className="mt-2 text-center text-2xl/9 font-bold tracking-tight text-white">
           Create your account
         </h2>
       </div>
@@ -77,10 +78,9 @@ export default function SignUpPage() {
             onChange={(event) => setEmail(event.target.value)}
           />
 
-          <TextField
+          <PasswordValidation
             label="Password"
             name="password"
-            type="password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
